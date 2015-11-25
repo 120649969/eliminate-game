@@ -1,4 +1,9 @@
-﻿#pragma once
+﻿/**
+ * 单例模板类
+ */
+
+#ifndef __SINGLETON_H__
+#define __SINGLETON_H__
 
 #include <set>
 
@@ -48,7 +53,7 @@ template <typename T>
 class Singleton : public SingletonBase
 {
 public:
-	static T* GetInstance()
+	static T* instance()
 	{
 		if (s_singleton_ == nullptr)
 		{
@@ -57,7 +62,7 @@ public:
 		return s_singleton_;
 	}
 
-	static void DestroyInstance()
+	static void destroy()
 	{
 		if (s_singleton_)
 		{
@@ -66,10 +71,7 @@ public:
 	}
 
 protected:
-	Singleton()
-	{
-
-	};
+	Singleton() = default;
 
 	virtual ~Singleton()
 	{
@@ -82,14 +84,10 @@ private:
 
 template<typename T> T* Singleton<T>::s_singleton_ = nullptr;
 
-#define SINGLETON(_class_)				\
-	private:							\
-		_class_();						\
-		~_class_();						\
-		friend class Singleton<_class_>
+#define SINGLETON(_class_name_)					\
+	private:									\
+		_class_name_();							\
+		~_class_name_();						\
+		friend class Singleton<_class_name_>
 
-#define SINGLETON_DEFAULT(_class_)		\
-	private:							\
-		_class_() {};					\
-		~_class_() {};					\
-		friend class Singleton<_class_>
+#endif

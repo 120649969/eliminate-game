@@ -1,20 +1,16 @@
-﻿/**
- * 游戏场景
- * author: zhangpanyi@live.com
- * https://github.com/zhangpanyi/Eliminate
- */
-
-#pragma once
+﻿#ifndef __GAMESCENE_H__
+#define __GAMESCENE_H__
 
 #include "cocos2d.h"
 
-class GameScene final : public cocos2d::Scene
+class GameScene : public cocos2d::Layer
 {
 public:
-	GameScene();
-	~GameScene();
+    static cocos2d::Scene* createScene();
 
-	virtual bool init() override;
-
+    virtual bool init();
+    
 	CREATE_FUNC(GameScene);
 };
+
+#endif

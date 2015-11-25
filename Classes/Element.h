@@ -1,18 +1,11 @@
-﻿/**
- * 游戏元素
- * author: zhangpanyi@live.com
- * https://github.com/zhangpanyi/Eliminate
- */
+﻿#ifndef __ELEMENT_H__
+#define __ELEMENT_H__
 
-#pragma once
-
-#include "Types.h"
 #include "cocos2d.h"
 
 class Element final : public cocos2d::Sprite
 {
 public:
-	/* 创建元素的工厂函数 */
 	static Element* create();
 	static Element* create(const std::string& filename);
 	static Element* create(const std::string& filename, const cocos2d::Rect& rect);
@@ -23,28 +16,28 @@ public:
 
 public:
 	/**
-	 * 移动
-	 * @param duration 耗时
-	 * @param position 目标位置
-	 * @param func 回调函数
+	 * 是否锁定
 	 */
-	void Move(float duration, const cocos2d::Vec2& position, const std::function<void()> &func);
+	bool is_locked() const;
 
 	/**
-	 * 落下
-	 * @param duration 耗时
-	 * @param position 目标位置
-	 * @param func 回调函数
+	 * 移动
 	 */
-	void Falldown(float duration, const cocos2d::Vec2& position, const std::function<void()> &func);
+	void move(float duration, const cocos2d::Vec2& pos, const std::function<void()> &callback);
+
+	/**
+	 * 自动填充
+	 */
+	void auto_fill(float duration, const cocos2d::Vec2& pos, const std::function<void()> &callback);
 
 	/**
 	 * 消除
-	 * @param func 回调函数
 	 */
-	void Eliminate(const std::function<void()> &func);
+	void eliminate(const std::function<void()> &callback);
 
 private:
 	Element() = default;
 	~Element() = default;
 };
+
+#endif

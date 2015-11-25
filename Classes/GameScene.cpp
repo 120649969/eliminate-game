@@ -1,41 +1,39 @@
 ﻿#include "GameScene.h"
-
-#include <sstream>
-#include "Config.h"
-#include "GameLayer.h"
 #include "VisibleRect.h"
+#include "CheckerboardLayer.h"
 using namespace cocos2d;
 
 
-GameScene::GameScene()
+Scene* GameScene::createScene()
 {
-
-}
-
-GameScene::~GameScene()
-{
-
+    auto scene = Scene::create();
+	auto layer = GameScene::create();
+    scene->addChild(layer);
+    return scene;
 }
 
 bool GameScene::init()
 {
-	if (!Scene::init())
+    if ( !Layer::init() )
+    {
+        return false;
+    }
+
+	auto background = Sprite::create("background.png");
+	background->setPosition(VisibleRect::center());
+	addChild(background);
+
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("img/elements.plist");
+
+	auto checkerboard = CheckerboardLayer::create();
+	addChild(checkerboard);
+
+	CheckerboardCache::Config config;
+	CheckerboardCache::instance()->add_checkerboard_config("map/01.tmx");
+	if (CheckerboardCache::instance()->get_checkerboard_config("map/01.tmx", config))
 	{
-		return false;
+		checkerboard->start_game(config);
 	}
-
-	// 加载纹理
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("elements.plist");
-
-	// 创建背景
-	auto background_ = Sprite::create("background.png");
-	background_->setPosition(Vec2(VisibleRect::center().x, VisibleRect::bottom().y + background_->getContentSize().height / 2));
-	addChild(background_);
-
-	// 创建游戏图层
-	auto layer = GameLayer::create();
-	layer->SetMap(Config::GetInstance()->ReadMapConfig("map/map.tmx"));
-	addChild(layer);
 
 	return true;
 }

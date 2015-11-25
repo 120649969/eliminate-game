@@ -3,6 +3,8 @@
 
 USING_NS_CC;
 
+static cocos2d::Size designResolutionSize = cocos2d::Size(760, 580);
+
 AppDelegate::AppDelegate() {
 
 }
@@ -22,26 +24,42 @@ void AppDelegate::initGLContextAttrs()
     GLView::setGLContextAttrs(glContextAttrs);
 }
 
+// If you want to use packages manager to install more packages, 
+// don't modify or remove this function
+static int register_all_packages()
+{
+    return 0; //flag for packages manager
+}
+
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLViewImpl::create("Eliminate Game");
-		glview->setFrameSize(760, 580);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
+        glview = GLViewImpl::createWithRect("eliminate-game", Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+#else
+        glview = GLViewImpl::create("eliminate-game");
+#endif
         director->setOpenGLView(glview);
     }
 
     // turn on display FPS
     director->setDisplayStats(false);
 
-	glview->setDesignResolutionSize(760, 580, ResolutionPolicy::EXACT_FIT);
-
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
 
+    // Set the design resolution
+    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+
+    register_all_packages();
+
+    // create a scene. it's an autorelease object
+	auto scene = GameScene::createScene();
+
     // run
-	director->runWithScene(GameScene::create());
+    director->runWithScene(scene);
 
     return true;
 }

@@ -1,6 +1,7 @@
 ﻿#include "Element.h"
 using namespace cocos2d;
 
+
 Element* Element::create()
 {
 	Element *sprite = new (std::nothrow) Element();
@@ -86,25 +87,34 @@ Element* Element::createWithSpriteFrameName(const std::string& spriteFrameName)
 	return createWithSpriteFrame(frame);
 }
 
-void Element::Move(float duration, const cocos2d::Vec2& position, const std::function<void()> &func)
+void Element::move(float duration, const cocos2d::Vec2& position, const std::function<void()> &callback)
 {
-	CCAssert(func, "Invalid function object");
-	runAction(Sequence::create(MoveTo::create(duration, position), CallFunc::create(func), nullptr));
+	CCAssert(callback != nullptr, "");
+	if (callback != nullptr)
+	{
+		runAction(Sequence::create(MoveTo::create(duration, position), CallFunc::create(callback), nullptr));
+	}
 }
 
-void Element::Falldown(float duration, const cocos2d::Vec2& position, const std::function<void()> &func)
+void Element::auto_fill(float duration, const cocos2d::Vec2& position, const std::function<void()> &callback)
 {
-	CCAssert(func, "Invalid function object");
-	Move(duration, position, func);
+	CCAssert(callback != nullptr, "");
+	if (callback != nullptr)
+	{
+		move(duration, position, callback);
+	}
 }
 
-void Element::Eliminate(const std::function<void()> &func)
+void Element::eliminate(const std::function<void()> &callback)
 {
-	CCAssert(func, "Invalid function object");
-	runAction(Sequence::create(EaseExponentialIn::create(ScaleTo::create(0.4f, 0.5f)),
-		EaseExponentialOut::create(ScaleTo::create(0.4f, 1.0f)),
-		FadeOut::create(0.1f),
-		CallFunc::create([=](){ setOpacity(255); setScale(1.0f); setVisible(false); }),
-		CallFunc::create(func),
-		nullptr));
+	CCAssert(callback != nullptr, "");
+	if (callback != nullptr)
+	{
+		runAction(Sequence::create(EaseExponentialIn::create(ScaleTo::create(0.4f, 0.5f)),
+			EaseExponentialOut::create(ScaleTo::create(0.4f, 1.0f)),
+			FadeOut::create(0.1f),
+			CallFunc::create([=](){setOpacity(255); setScale(1.0f); setVisible(false); }),
+			CallFunc::create(callback),
+			nullptr));
+	}
 }
