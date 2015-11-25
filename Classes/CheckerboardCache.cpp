@@ -31,17 +31,23 @@ void CheckerboardCache::add_checkerboard_config(const std::string &filename)
 			auto layers = map_info->getLayers();
 			CCAssert(!layers.empty(), "");
 			auto tiles = layers.front()->_tiles;
-			auto layer_ize = layers.front()->_layerSize;
+			auto layer_size = layers.front()->_layerSize;
 
 			Config config;
-			config.width = layer_ize.width;
-			config.height = layer_ize.height;
+			config.width = layer_size.width;
+			config.height = layer_size.height;
+			config.layout.resize(config.width * config.height);
 			config.type_num = atoi(layers.front()->_name.c_str());
-			const size_t max_size = layer_ize.width * layer_ize.height;
-			for (size_t idx = 0; idx < max_size; ++idx)
+
+			// 坐标系转换
+			for (int row = 0; row < config.height; ++row)
 			{
-				config.layout.push_back(tiles[idx] != 0);
+				for (int col = 0; col < config.width; ++col)
+				{
+					config.layout[row * config.width + col] = tiles[(config.height - row - 1) * config.width + col] != 0;
+				}
 			}
+
 			checkerboard_.insert(std::make_pair(filename, config));
 		}
 	}

@@ -66,6 +66,17 @@ public:
 	};
 
 	/**
+	 * 搜索范围
+	 */
+	struct SearchScope
+	{
+		int min_row;
+		int min_col;
+		int max_row;
+		int max_col;
+	};
+
+	/**
 	 * 移动路径
 	 */
 	struct MoveTrack
@@ -88,17 +99,6 @@ public:
 		int				element_type;				// 元素类型
 		Vec2			source;						// 来源位置
 		Vec2			target;						// 目标位置
-	};
-
-	/**
-	 * 搜索范围
-	 */
-	struct SearchScope
-	{
-		int min_row;
-		int min_col;
-		int max_row;
-		int max_col;
 	};
 
 public:
