@@ -96,7 +96,7 @@ bool AStar::get_node_index(Node *node, size_t &index)
 void AStar::percolate_up(size_t hole)
 {
 	size_t parent = 0;
-	while (hole > 1)
+	while (hole > 0)
 	{
 		parent = (hole - 1) / 2;
 		if (open_list_[hole]->f() < open_list_[parent]->f())
