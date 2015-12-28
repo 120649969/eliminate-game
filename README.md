@@ -3,6 +3,7 @@
 
 # 运行环境
 Windows
+Visual Studio 2015
 
 # 游戏截图
 ![](https://raw.githubusercontent.com/zhangpanyi/eliminate-game/master/screenshot/1.gif)
