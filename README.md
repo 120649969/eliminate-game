@@ -3,9 +3,13 @@
 
 # 运行环境
 Windows
+
 Visual Studio 2015
 
 # 游戏截图
+![](https://raw.githubusercontent.com/zhangpanyi/eliminate-game/master/screenshot/114511954.png)
+![](https://raw.githubusercontent.com/zhangpanyi/eliminate-game/master/screenshot/1402297913.png)
+![](https://raw.githubusercontent.com/zhangpanyi/eliminate-game/master/screenshot/2820610501.png)
 ![](https://raw.githubusercontent.com/zhangpanyi/eliminate-game/master/screenshot/1.gif)
 
 # 详细介绍
