@@ -11,6 +11,3 @@ Visual Studio 2015
 ![](https://raw.githubusercontent.com/zhangpanyi/eliminate-game/master/screenshot/1402297913.png)
 ![](https://raw.githubusercontent.com/zhangpanyi/eliminate-game/master/screenshot/2820610501.png)
 ![](https://raw.githubusercontent.com/zhangpanyi/eliminate-game/master/screenshot/1.gif)
-
-# 详细介绍
-[http://igameday.com/2015/12/08/3.html](http://igameday.com/2015/12/08/3.html)
