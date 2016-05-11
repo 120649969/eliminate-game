@@ -5,11 +5,12 @@
 #ifndef __SINGLETON_H__
 #define __SINGLETON_H__
 
-#include <set>
+#include <list>
+#include <algorithm>
 
 class SingletonBase
 {
-	class InstanceTable : public std::set < SingletonBase * >
+	class InstanceTable : public std::list < SingletonBase * >
 	{
 	public:
 		InstanceTable()
@@ -21,9 +22,9 @@ class SingletonBase
 		~InstanceTable()
 		{
 			is_cleared_ = true;
-			for (auto instance_ptr : *this)
+			for (auto instance : *this)
 			{
-				delete instance_ptr;
+				delete instance;
 			}
 		}
 
@@ -34,14 +35,18 @@ class SingletonBase
 protected:
 	SingletonBase()
 	{
-		s_instance_table_.insert(this);
+		s_instance_table_.push_back(this);
 	}
 
 	virtual ~SingletonBase()
 	{
 		if (!s_instance_table_.is_cleared_)
 		{
-			s_instance_table_.erase(this);
+			InstanceTable::iterator itr = std::find(s_instance_table_.begin(), s_instance_table_.end(), this);
+			if (itr != s_instance_table_.end())
+			{
+				s_instance_table_.erase(itr);
+			}		
 		}
 	}
 

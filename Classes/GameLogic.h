@@ -1,6 +1,7 @@
 ﻿#ifndef __GAMELOGIC_H__
 #define __GAMELOGIC_H__
 
+#include <set>
 #include <queue>
 #include <vector>
 #include <random>

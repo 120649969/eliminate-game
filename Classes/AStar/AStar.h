@@ -7,7 +7,6 @@
 #ifndef __ASTAR_H__
 #define __ASTAR_H__
 
-#include <deque>
 #include <vector>
 #include <cstdint>
 #include <functional>
@@ -58,30 +57,19 @@ public:
 	 */
 	struct Param
 	{
-		bool			allow_corner;
+		bool			corner;
 		uint16_t		height;
 		uint16_t		width;
 		Vec2			start;
 		Vec2			end;
-		QueryFunction	is_canreach;
+		QueryFunction	can_reach;
 
 		Param()
 			: height(0)
 			, width(0)
-			, is_canreach(nullptr)
-			, allow_corner(false)
+			, corner(false)
+			, can_reach(nullptr)
 		{
-		}
-
-		Param(const Vec2 &_start, const Vec2 &_end, uint16_t _width, uint16_t _height, const QueryFunction &_is_canreach, bool _allow_corner)
-			: start(_start)
-			, end(_end)
-			, width(_width)
-			, height(_height)
-			, is_canreach(_is_canreach)
-			, allow_corner(_allow_corner)
-		{
-
 		}
 	};
 
@@ -147,45 +135,45 @@ public:
 	~AStar();
 
 public:
-	int step_value() const;
+	int stepValue() const;
 
-	int oblique_value() const;
+	int obliqueValue() const;
 
-	void set_step_value(int value);
+	void setStepValue(int value);
 
-	void set_oblique_value(int value);
+	void setObliqueValue(int value);
 
-	std::deque<Vec2> search(const Param &param);
+	std::vector<Vec2> find(const Param &param);
 
 private:
 	void clear();
 
-	void init(const Param &param);
+	void initParam(const Param &param);
 
-	bool vlid_param(const Param &param);
+	bool isVlidParam(const Param &param);
 
 private:
-	void percolate_up(size_t hole);
+	void percolateUp(size_t hole);
 
-	bool get_node_index(Node *node, size_t &index);
+	bool getNodeIndex(Node *node, size_t &index);
 
-	uint16_t calcul_g_value(Node *parent_node, const Vec2 &current_pos);
+	uint16_t calculGValue(Node *parent_node, const Vec2 &current_pos);
 
-	uint16_t calcul_h_value(const Vec2 &current_pos, const Vec2 &end_pos);
+	uint16_t calculHValue(const Vec2 &current_pos, const Vec2 &end_pos);
 
-	bool has_node_in_open_list(const Vec2 &pos, Node *&out);
+	bool hasNoodeInOpenList(const Vec2 &pos, Node *&out);
 
-	bool has_node_in_close_list(const Vec2 &pos);
+	bool hasNodeInCloseList(const Vec2 &pos);
 
-	bool canreach(const Vec2 &pos);
+	bool canReach(const Vec2 &pos);
 
-	bool canreach(const Vec2 &current_pos, const Vec2 &target_pos, bool allow_corner);
+	bool canReach(const Vec2 &current_pos, const Vec2 &target_pos, bool allow_corner);
 
-	void find_canreach_pos(const Vec2 &current_pos, bool allow_corner, std::vector<Vec2> &canreach_pos);
+	void findCanReachPos(const Vec2 &current_pos, bool allow_corner, std::vector<Vec2> &can_reach);
 
-	void handle_found_node(Node *current_node, Node *target_node);
+	void handleFoundNode(Node *current_node, Node *target_node);
 
-	void handle_not_found_node(Node *current_node, Node *target_node, const Vec2 &end_pos);
+	void hndleNotFoundNode(Node *current_node, Node *target_node, const Vec2 &end_pos);
 
 private:
 	int						step_value_;

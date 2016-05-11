@@ -219,12 +219,12 @@ int GameLogic::shortest_distance_to_top(const Vec2 &pos)
 			param.end.y = pos.y;
 			param.width = config_.width;
 			param.height = config_.height;
-			param.is_canreach = [&](const AStar::Vec2 &point)
+			param.can_reach = [&](const AStar::Vec2 &point)
 			{
 				return config_.layout[point.y * config_.width + point.x] != 0;
 			};
 
-			size_t distance = a_star_.search(param).size();
+			size_t distance = a_star_.find(param).size();
 			if (distance > 0)
 			{
 				heap.push_back(distance);
